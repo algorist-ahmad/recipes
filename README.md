@@ -4,7 +4,7 @@ All my cooking recipes shall be stored here.
 
 Recipes are written in [Cooklang](https://cooklang.org/), a markup language specifically designed for cooking recipes.
 
-These recipes are managed with [cooklang-chef](https://github.com/Zheoni/cooklang-chef) by Zheoni which is an extension of the original CLI [cook](https://github.com/cooklang/cookcli) by Cooklang.
+These recipes are managed with [cooklang-chef](https://github.com/Zheoni/cooklang-chef) by Zheoni which is an extension, and better version, of the original CLI [cook](https://github.com/cooklang/cookcli) by Cooklang.
 
 ## example of cook cli
 
