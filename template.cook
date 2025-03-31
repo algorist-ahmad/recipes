@@ -1,0 +1,301 @@
+#!/bin/cook
+
+---
+title: Instructions and Examples on Syntax of Cooklang
+description: Additional notes about the recip
+source: source name <https://example.org/recipe>
+author: mama
+yield: 1|2|4,15 cups worth
+course: dinner
+time: 1h30m
+time.prep: 2h30m
+time.cook: 0h10m
+difficulty: easy
+cuisine: mexican
+diet: halal
+image: https://example.org/recipe_image.jpg 
+locale: en_CA
+tags:
+  - template
+  - instructions
+  - syntax
+  - example
+---
+
+===
+
+> A section is defined by placing a = at the beginning of a line.
+
+> If the = is followed by words, they become the section title as shown in the next section.
+
+= cooking steps
+
+> Each paragraph in a recipe file is a cooking step. Cooking steps are separated with an empty line.
+
+A step,
+the same step.
+
+A different step.
+
+A multiline step using \\ to insert newlines as such:\
+substep 3.1\
+substep 3.2\
+substep 3.3
+
+= annotations
+
+> This line is NOT a cooking step because it begins with a >.\
+This is an annotation.
+
+> Annotations can be broken into multiple lines by placing a \\ at the end of a line as\
+such\
+for\
+example
+
+= comments
+
+> A comment is defined as text which begins with two dashes '\--'. The next line will be a comment. If this text is rendered, then the comment will not be visible:
+
+> \  BEGIN COMMENT
+-- Don't burn the cake!
+> \  END COMMENT
+
+> A block comment is defined as text which begins with '\[-' and ends with '-]'. If the following text is rendered, the text between the curly braces will not be visible:
+
+Slowly add @milk{4*%cup} {[- TODO change units to litres -]}, keep mixing
+
+-- SPECIAL COMMENTS: TODO, XXX, FIXME, NOTE
+
+=== ingredients ===
+
+> To define an ingredient, use the \@ symbol. If the ingredient’s name contains multiple words, indicate the end of the name with {}.
+
+Then add @salt and @ground black pepper{} to taste.
+
+> To indicate the quantity of an item, place the quantity inside {} after the name.
+
+Poke holes in @potato{2*}.
+
+> To use a unit of an item, such as weight or volume, add a % between the quantity and unit.
+
+Place @bacon strips{1*%kg} on a baking sheet and glaze with @syrup{1/2*%tbsp}.
+
+> Many recipes involve repetitive ingredient preparations, such as peeling or chopping.\
+To simplify this, you can define these common preparations directly within the ingredient reference using shorthand syntax:
+
+Mix @onion{1*}(peeled and finely chopped) and @garlic{2*%cloves}(peeled and minced) into paste.
+
+> These preparations will be clearly displayed in the ingredient list, allowing you to get everything ready before you start cooking.
+
+> Recipes are not always exact. This is a little improvement that should help comunicating that in some cases.
+
+@fireeggs{2-4*}
+
+@ominous sauce{200-300*%ml}                 \-- works with units
+
+@water{1.5-2*%l}                         \-- with decimal numbers too
+
+@darkflour{100*%g} ... @&darkflour{200-400*%g} \-- the total will be 300-500 g
+
+>###SCALABILITY
+
+> Can automatically scale ingredient quantities with *. This will multiply the quantity given by the number of servings selected.
+
+Add @cream{1/2*%cup} and mix until smooth.
+
+> Alternatively, you can manually specify ingredient quantities for each serving size. This is useful for non-linear scaling.
+
+Add @liquid{1|2|3%cup} and mix until smooth.
+
+= cookware
+
+You can define any necessary cookware with \#. Like ingredients, you don’t need to use braces if it’s a single word.
+
+Place the potatoes into a #pot.
+Mash the potatoes with a #potato masher{}.
+
+= timer
+
+>You can define a timer using \~.
+
+Lay the potatoes on a #baking sheet{} and place into the #oven{}. Bake for ~{25%minutes}.
+
+> Timers can have a name too:
+
+Boil @eggs{2*} for ~eggs{3%minutes}.
+
+> Applications can use this name in notifications.
+
+= shopping lists
+
+> To support the creation of shopping lists by apps and the command line tool, Cooklang includes a specification for a configuration file to define how ingredients should be grouped on the final shopping list. You can use [] to define a category name. These names are arbitrary, so you can customize them to meet your needs. For example, each category could be an aisle or section of the store, such as [produce] and [deli].
+
+>[produce]\
+potatoes\
+[dairy]\
+milk\
+butter
+
+>Or, you might be going to multiple stores, in which case you might use [Tesco] and [Costco].
+
+>[Costco]\
+potatoes\
+milk\
+butter
+
+>[Tesco]\
+bread\
+salt
+
+>You can also define synonyms with |.
+
+>[produce]\
+potatoes
+
+>[dairy]\
+milk\
+butter
+
+>[deli]\
+chicken
+
+>[canned goods]\
+tuna|chicken of the sea
+
+= pictures
+
+> You can add images to your recipe by including a supported image file (.png,.jpg) matching the name of the recipe recipe in the same directory.
+
+>\  ./baked_potato.cook\
+  ./baked_potato.jpg
+
+> You can also add images for specific steps by including a step number before the file extension.
+
+>\  ./chicken.cook\
+  ./chicken.0.jpg\
+  ./chicken.3.jpg
+
+= metadata
+
+> If this page is rendered, metadata should appear at the top before the ingredients section.
+
+> Recipes are more than just steps and ingredients—they also include context, such as preparation times, authorship, and dietary relevance. You can add metadata to your recipe using YAML front matter, add -\-- at the beginning of a file and -\-- at the end of the front matter block.
+
+> Here's the metadata used for this recipe file:
+
+> -\--\
+title: Instructions and Examples on Syntax of Cooklang\
+description: Additional notes about the recip\
+source: https://example.org/recipe\
+author: mama\
+yield: 2,15 cups worth\
+course: dinner\
+duration: 1h30m\
+time.prep: 2h30m\
+time.cook: 0h10m\
+difficulty: easy\
+cuisine: mexican\
+diet: halal\
+image: https://example.org/recipe_image.jpg \
+locale: en_CA\
+tags:\
+  - template\
+  - instructions\
+  - syntax\
+  - example\
+-\--
+
+=== The following sections are optional extensions
+
+= modifiers
+
+> With the ingredient modifiers you can alter the behaviour of ingredients.\
+There are 5 modifiers:
+
+>- @ **Recipe**. References another recipe by it's name.
+
+Add @@tomato sauce{200%ml}.
+
+>- `&` **Reference**. References another ingredient with the same name. If a quantity is given, the amount can be added. The ingredient must be defined before. If there are multiple definitions, use the last one.
+
+Add @flour{200*%g} [...], then add more @&flour{300*%g}.
+
+>- `-` **Hidden**. Hidden in the list, only appears inline.
+  
+Add some @-secretspice.
+  
+>- `?` **Optional**. Mark the ingredient as optional.
+
+Now you can add @?thyme.
+
+>- `+` **New**. Forces to create a new ingredient.\
+This works with the [modes](#modes) extension.
+
+> This also works (except recipe) for cookware.
+
+=== intermediate preparations
+
+> You can refer to intermediate preparations as ingredients. For example:
+
+Add @brownflour{200*%g} and @&water. Mix until combined.
+
+Let the @&(~1)dough{} rest for ~{1%hour}.
+
+> Here, dough is refering to whatever was prepared one step back. These ingredients will not appear in the list.
+
+> There are more syntax variations:
+
+@&(~1)thing{}  -- 1 step back
+
+@&(2)thing{}   -- step number 2
+
+@&(=2)thing{}  -- section number 2
+
+@&(=~2)thing{} -- 2 sections back
+
+> Only past steps from the current section can be referenced. It can only be combined with the optional (?) modifier. Text steps can't be referenced. In relative references, text steps are ignored. Enabling this extension automatically enables the modifiers extension.
+
+=== aliases
+
+> Add an alias to an ingredient to display a different name.
+
+@white wine|wine{}
+
+@@shomato sauce|shauce{} \-- works with modifiers too
+
+> This can be useful with references. Here, the references will be displayed as flour even though the ingredient it's refering is tipo zero flour.
+
+Add the @tipo zero flour{}
+
+Add more @&tipo zero flour|tzflour{}
+
+> This also works for cookware.
+
+=== modes
+
+> Add new special metadata keys that control some of the other extensions. The special keys are between square brackets.
+
+> >> [special key]: value
+
+> [mode] | [define]\
+    all | default. This is the default mode, same as the original cooklang.\
+    ingredients | components. In this mode only components can be defined, all regular text is omitted. Useful for writing an ingredient list manually at the beginning of the recipe if you want to do so.\
+    steps. All the ingredients are references. To force a new ingredient, use the new (+) modifier.\
+    text. All steps are text blocks
+
+> duplicate\
+    new | default. When a ingredient with the same name is found, create a new one. This is the original cooklang behaviour.\
+    reference | ref. Ingredients have implicit references when needed. So ingredients with the same name will be references. To force a new ingredient, use the new (+) modifier.\
+    >> [duplicate]: ref\
+    @water{1} @water{2}\
+    \-- is the same as\
+    >> [duplicate]: default\
+    @water{1} @&water{2}
+
+=== temperature
+
+> Find temperatures in the text, without any markers. In the future this may be extended to any unit.
+
+> For example, the temperature here will be parsed not as text, but as an inline quantity.
+
+Preheat the #oven to 180 ºC.
