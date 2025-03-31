@@ -1,8 +1,12 @@
-# What's next
+# Intro
 
-* Install a syntax highlighting package for your text editor. We have packages for SublimeText and VSCode. See  [cooklang.org](https://cooklang.org/docs/syntax-highlighting/) for full instructions.
-* Add your own recipes. Dive into the Cook ecoysystem and discover how easy it is to write in CookLang. It's the best way to learn the [CookLang syntax](https://cooklang.org/docs/spec/).
-* Check out our [tips and tricks](https://cooklang.org/docs/best-practices/) page.
+All my cooking recipes shall be stored here.
+
+Recipes are written in [Cooklang](https://cooklang.org/), a markup language specifically designed for cooking recipes.
+
+These recipes are managed with [cooklang-chef](https://github.com/Zheoni/cooklang-chef) by Zheoni which is an extension of the original CLI [cook](https://github.com/cooklang/cookcli) by Cooklang.
+
+## example of cook cli
 
 ### Read the recipe
 
