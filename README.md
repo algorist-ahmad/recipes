@@ -1,6 +1,6 @@
 # Intro
 
-All my cooking recipes shall be stored here.
+All my cooking recipes are stored here.
 
 Recipes are written in [Cooklang](https://cooklang.org/), a markup language specifically designed for cooking recipes.
 
